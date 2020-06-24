@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            font-size: 30px;
+            font-family: 微軟正黑體;
+        }
+
+        #src {
+            width: 800px;
+            height: 400px;
+            margin: auto;
+            position: relative;
+            transition: 1s;
+            background-repeat: no-repeat;
+            background-size: cover;
+
+        }
+
+        #boss {
+            width: 700px;
+            height: 400px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            position: absolute;
+            z-index: 1;
+            transform: translate(-50%, -50%);
+            top: 50%;
+            left: 50%;
+        }
+
+        #content {
+            text-align: center;
+        }
+
+        #bossskill {
+            position: absolute;
+            top: 0%;
+            left: 37%;
+            transform: translate(-50%, -50%);
+            z-index: 3;
+            transform: rotate(90deg);
+            /* background: royalblue; */
+            /* background: url(./material/boss_fire_skill.gif) no-repeat center/contain */
+        }
+
+        #nowpick {
+            width: 500px;
+            height: 240px;
+            text-align: left;
+            position: absolute;
+        }
+
+        #bigpick {
+            width: 500px;
+            height: 240px;
+            text-align: left;
+        }
+
+
+        #cards {
+            width: 500px;
+            height: 500px;
+            display: inline-block;
+            position: relative;
+        }
+
+        #bosshp {
+            width: 500px;
+            height: 50px;
+            background: linear-gradient(90deg, red 0% 100%, black 0% 100%);
+        }
+
+        #tright {
+            width: 500px;
+            height: 400px;
+            float: right;
+            transition: 1s;
+            text-align: left;
+        }
+
+        #tleft {
+            width: 500px;
+            height: 400px;
+
+            float: left;
+            transition: 1s;
+        }
+
+        #dright {
+            width: 500px;
+            height: 525px;
+            float: right;
+            transition: 1s;
+            background-position: center 30%;
+        }
+
+        #dleft {
+            width: 500px;
+            height: 500px;
+            float: left;
+            transition: 1s;
+            text-align: left;
+        }
+
+        #start {
+            background: blueviolet;
+            width: 200px;
+            height: 80px;
+            margin: auto;
+        }
+
+        #rest {
+            background: blueviolet;
+            width: 200px;
+            height: 80px;
+            margin: auto;
+            margin-top: 0.5%;
+            pointer-events: none;
+        }
+
+        #skilling {
+            width: 500px;
+            height: 240px;
+            background-size: cover;
+            background-position: 0 70%;
+            position: absolute;
+            z-index: 5;
+            opacity: 30%;
+        }
+
+        #skill {
+            width: 800px;
+            height: 400px;
+            margin-left: 20%;
+            position: absolute;
+            left: -20%;
+            z-index: 2;
+        }
+
+        #attack {
+            transform: rotate(90deg);
+            width: 800px;
+            height: 400px;
+            margin-left: 20%;
+            position: absolute;
+            pointer-events: none;
+            left: -20%;
+            z-index: 2;
+        }
+
+        #grab {
+            width: 300px;
+            height: 300px;
+            position: absolute;
+            pointer-events: none;
+            top: 71%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+        }
+
+        .card {
+            width: 120px;
+            height: 120px;
+            transform-style: preserve-3d;
+            margin-left: 5px;
+            display: inline-block;
+            position: relative;
+            transform: rotateY(540deg);
+            transition: 0.5s;
+            pointer-events: none
+        }
+
+        .back {
+            width: 120px;
+            height: 120px;
+            position: absolute;
+            transform: rotateY(180deg);
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-image: url(./material/card.png);
+            backface-visibility: hidden;
+        }
+
+        .open {
+            transform: rotateY(0deg);
+        }
+
+        .fire {
+            background-image: url(./material/fire.png);
+            background-size: contain;
+            background-repeat: no-repeat;
+            width: 120px;
+            height: 120px;
+            position: absolute;
+        }
+
+        .water {
+            background-image: url(./material/water.png);
+            background-size: contain;
+            background-repeat: no-repeat;
+            width: 120px;
+            height: 120px;
+            position: absolute;
+        }
+
+        .leaf {
+            background-image: url(./material/leaf.png);
+            background-size: contain;
+            background-repeat: no-repeat;
+            width: 120px;
+            height: 120px;
+            position: absolute;
+        }
+
+        .shield {
+            background-image: url(./material/shield.png);
+            background-size: contain;
+            background-repeat: no-repeat;
+            width: 120px;
+            height: 120px;
+            position: absolute;
+        }
+
+        .sword {
+            background-image: url(./material/sword.png);
+            background-size: contain;
+            background-repeat: no-repeat;
+            width: 120px;
+            height: 120px;
+            position: absolute;
+        }
+
+        .pick {
+            position: relative;
+            display: inline-block;
+            width: 100px;
+            height: 100px;
+        }
+
+        li:nth-last-child(even) {
+            color: red;
+        }
+
+        li:nth-last-child(odd) {
+            color: blue;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="content">
+        <div id="grab"></div>
+        <div id="bossskill"></div>
+        <div id='tleft'>BOSS HP:
+            <div id='bosshp'></div>
+        </div>
+        <div id='tright'>
+        </div>
+        <div id="src">
+            <div id="attack"></div>
+            <div id='skill'></div>
+            <div id="boss"></div>
+        </div>
+        <hr>
+        <div id='dleft'>
+        </div>
+
+        <div id="cards">
+        </div>
+        <div id='dright'>
+            <div>HP:<span id='hp'>1000</span></div>
+            <div>Shild Value:<span id='defensevalue'></span></div>
+            <div>COMBO:<span id="combo"></span></div>
+            <div id='bigpick'>
+                <div id='nowpick'></div>
+            </div>
+            <div><button id='start' type="button" value="START">START</button></div>
+            <div><button id='rest' type="button">REST</button></div>
+        </div>
+
+    </div>
+
+    <script src="./jquery-3.5.0.min.js"></script>
+    <script>
+        const boss = document.getElementById('boss')
+        const rand = (num) => { return Math.floor(Math.random() * num) }
+        let cardarray = []
+        let array = []
+        let array2 = []
+        let borncardarray = []
+
+        let ingame = false
+
+        let bossatk = 0
+        let atk = 0
+        let def = 0
+        let finaldef = 0
+        let combo = 1
+        let skillcount = 1
+        let combopoint = 1
+        let bossskillcount = 0
+        let hp = 20
+        let bosshp = 3000
+        let bosshpchart = ''
+        let bossid = ''
+        let attr = ''
+        let heal = ''
+
+
+
+        // 開始-----------------------------------------------------------------
+
+        const timer = setInterval(() => {
+            if ($('.tright')[7] != undefined) {
+                $('.tright')[0].remove()
+            }
+            if ($('.dleft')[5] != undefined) {
+                $('.dleft')[0].remove()
+            }
+            bosshpchart = bosshp / 30
+            $('#bosshp').css('background', `linear-gradient(90deg, red 0% ${bosshpchart}%, black 0% 100%)`)
+            if (hp < 0 || bosshp < 0) {
+                over()
+            }
+            if (finaldef > 0) {
+                $('#dright').css('background', 'url(./material/shield.gif) no-repeat center/auto')
+            }
+            if (finaldef == 0) {
+                $('#dright').css('background', '')
+            }
+
+        }, 1000);
+
+
+        $('#start').click(function () {
+
+
+
+
+            $('#tright').text('')
+
+            $('#dleft').text('')
+
+            bossborn()
+
+            $('#rest').css('pointer-events', 'auto')
+
+            $('.card').css('pointer-events', 'auto')
+
+            $('.card').addClass('open')
+
+            hp = 1000
+
+            $('#hp').text(hp)
+
+            bosshp = 3000
+
+
+
+            setTimeout(() => {
+
+                $('.card').removeClass('open')
+            }, 3000);
+
+            $(this).attr('disabled', 'ture')
+        })
+
+
+        $('#rest').click(function () {
+            $('.card').addClass('open')
+            $('#rest').css('pointer-events', 'none')
+
+            setTimeout(() => {
+                $('#rest').css('pointer-events', 'auto')
+                actioncancel()
+            }, 3000);
+        })
+
+        const bossborn = () => {
+            let random = rand(3)
+            if (random == 0) {
+                bossid = '櫻火龍'
+                $('#src').css('backgroundImage', 'url("./material/fire_sence.jpg")')
+                boss.style.backgroundImage = 'url("./material/fire_dragon.png")'
+            }
+            if (random == 1) {
+                bossid = '水蛟龍'
+                $('#src').css('backgroundImage', 'url("./material/water_sence.jpg")')
+                boss.style.backgroundImage = 'url("./material/water_dragon.png")'
+            }
+            if (random == 2) {
+                bossid = '翡翠龍'
+                $('#src').css('backgroundImage', 'url("./material/leaf_sence.jpg")')
+                boss.style.backgroundImage = 'url("./material/leaf_dragon.png")'
+            }
+            $('#tright').append(`<li class='tright'>${bossid}出現了!</li>`)
+        }
+        // 隨機發牌-----------------------------------------------------------------
+
+
+        for (let i = 0; i < 16; i++) {
+            $("#cards").append(`<div class='card'>
+                <div class="front"></div>
+                <div class="back"></div>
+            </div>`)
+
+            let random = rand(3)
+
+            switch (random) {
+                case 0:
+                    random = 'fire'
+                    cardarray.push(random)
+                    break;
+                case 1:
+                    random = 'leaf'
+                    cardarray.push(random)
+                    break;
+                case 2:
+                    random = 'water'
+                    cardarray.push(random)
+                    break;
+            }
+            if (i == 15) {
+                let random = rand(16)
+                cardarray.splice(random, 1, 'sword')
+                let random2 = rand(16)
+                while (random2 == random) {
+                    random2 = rand(16)
+                }
+                cardarray.splice(random2, 1, 'shield')
+            }
+
+        }
+        for (let i = 0; i < 16; i++) {
+            $('.front').eq(i).addClass(cardarray[i])
+        }
+
+        $('.front').removeClass('front')
+
+
+        // 補牌-----------------------------------------------------------------
+        const borncard = () => {
+
+            for (let i = 0; i < 16; i++) {
+                if ($('.card').eq(i).hasClass('open')) {
+                    borncardarray.push(i)
+                }
+            }
+            let array2 = array
+            setTimeout(() => {
+
+
+                if (array2.includes('shield')) {
+                    for (let i = 0; i < borncardarray.length; i++) {
+                        let random = rand(3)
+                        switch (random) {
+                            case 0:
+                                $('.card').eq(borncardarray[i]).children().first().attr('class', 'fire')
+                                break;
+                            case 1:
+                                $('.card').eq(borncardarray[i]).children().first().attr('class', 'water')
+                                break;
+                            case 2:
+                                $('.card').eq(borncardarray[i]).children().first().attr('class', 'leaf')
+                                break;
+                        }
+                    }
+                    let random2 = rand(borncardarray.length)
+                    $('.card').eq(borncardarray[random2]).children().first().attr('class', 'shield')
+                }
+
+
+                else if (array2.includes('sword')) {
+                    for (let i = 0; i < borncardarray.length; i++) {
+                        let random = rand(3)
+                        switch (random) {
+                            case 0:
+                                $('.card').eq(borncardarray[i]).children().first().attr('class', 'fire')
+                                break;
+                            case 1:
+                                $('.card').eq(borncardarray[i]).children().first().attr('class', 'water')
+                                break;
+                            case 2:
+                                $('.card').eq(borncardarray[i]).children().first().attr('class', 'leaf')
+                                break;
+                        }
+                    }
+                    let random2 = rand(borncardarray.length)
+                    $('.card').eq(borncardarray[random2]).children().first().attr('class', 'sword')
+
+                }
+                else {
+                    for (let j = 0; j < borncardarray.length; j++) {
+                        let random = rand(3)
+                        switch (random) {
+                            case 0:
+                                $('.card').eq(borncardarray[j]).children().first().attr('class', 'fire')
+                                break;
+                            case 1:
+                                $('.card').eq(borncardarray[j]).children().first().attr('class', 'water')
+                                break;
+                            case 2:
+                                $('.card').eq(borncardarray[j]).children().first().attr('class', 'leaf')
+                                break;
+                        }
+                    }
+                }
+            }, 1200);
+        }
+
+        // 點擊卡片事件-----------------------------------------------------------------
+        const actioncancel = () => {
+
+            $('.card').css('pointer-events', 'none')
+            setTimeout(() => {
+                $('.open').removeClass('open')
+
+            }, 500);
+            bossaction()
+            setTimeout(() => {
+                $('#bigpick').children().remove()
+                $('.card').css('pointer-events', 'all')
+            }, 1000);
+            array = []
+            combo = 1
+            $('#combo').text('')
+            combopoint = 1
+            skillcount = 1
+            atk = 0
+            def = 0
+        }
+
+
+        const actionfinish = () => {
+            $('.card').css('pointer-events', 'none')
+            borncard()
+
+
+            $('.open').fadeTo(700, 0, function () {
+                setTimeout(() => {
+                    $('#bigpick').children().remove()
+                    $('.open').fadeTo(700, 100)
+                }, 1000);
+            })
+
+
+            setTimeout(() => {
+                array = []
+                borncardarray = []
+                combo = 1
+                $('#combo').text('')
+                combopoint = 1
+                skillcount = 1
+                atk = 0
+                def = 0
+            }, 2000);
+
+            setTimeout(() => {
+                $('.open').removeClass('open')
+                bossaction()
+                setTimeout(() => {
+                    $('.card').css('pointer-events', 'all')
+                }, 500);
+
+            }, 3000);
+        }
+
+        $('.card').on('click', function () {
+
+
+            if (!$(this).hasClass('open')) {
+                console.log();
+                if ($('#bigpick').children()[0] == undefined) {
+                    $('#bigpick').append(`<div id='nowpick'></div>`)
+                }
+                $('#nowpick').append(`<div class='${$(this).children().first().attr('class')
+                    } pick'></div>`)
+
+
+
+                $(this).addClass('open')
+
+                array.push($(this).children().first().attr('class'))
+
+
+                if ($('.open').length > 1) {
+                    if (array[0] == $(this).children().first().attr('class')) {
+                        $('#bigpick').append(`<div id='skilling' style=" background-image: url('./material/${array[0]}_skilling.gif')"></div>`)
+                        combo++
+                        combopoint *= 1.5
+                        skillcount++
+                        $('#combo').text(combo)
+                        console.log($(`.${array[0]}`).length);
+                        if ($(`.${array[0]}`).length / 2 == skillcount) {
+                            skill()
+                            actionfinish()
+                        }
+                    }
+
+                    else {
+                        if (array.indexOf('sword') != -1 && array.indexOf('shield') == -1) {
+                            attack()
+                            actionfinish()
+                        }
+                        else if (array.indexOf('shield') != -1 && array.indexOf('sword') == -1) {
+                            defense()
+                            actionfinish()
+                        }
+                        else if (array.indexOf('shield') != -1 && array.indexOf('sword') != -1) {
+                            actioncancel()
+                        }
+                        else { actioncancel() }
+                    }
+                }
+            }
+        })
+
+        // 攻擊------------------------------------------------------
+        const attack = function () {
+            if (array.indexOf('sword') != -1 && array.indexOf('shield') == -1) {
+                if (bossid == '翡翠龍') {
+                    array.map((i) => {
+                        switch (i) {
+                            case 'leaf':
+                                atk++
+                                attr = '木'
+                                break;
+                            case 'fire':
+                                atk += 2
+                                attr = '火'
+                                break;
+                            case 'water':
+                                atk--
+                                attr = '水'
+                                break;
+                        }
+                    })
+                }
+                if (bossid == '櫻火龍') {
+                    array.map((i) => {
+                        switch (i) {
+                            case 'leaf':
+                                atk--
+                                attr = '木'
+                                break;
+                            case 'fire':
+                                atk++
+                                attr = '火'
+                                break;
+                            case 'water':
+                                atk += 2
+                                attr = '水'
+                                break;
+                        }
+                    })
+                }
+                if (bossid == '水蛟龍') {
+                    array.map((i) => {
+                        switch (i) {
+                            case 'leaf':
+                                atk += 2
+                                attr = '木'
+                                break;
+                            case 'fire':
+                                atk--
+                                attr = '火'
+                                break;
+                            case 'water':
+                                atk++
+                                attr = '水'
+                                break;
+                        }
+                    })
+                }
+
+                atk *= combopoint
+                atk = Math.round(atk)
+                bosshp -= atk
+                $('#dleft').append(`<li class='dleft'>對${bossid}使用了${attr}之斬擊，造成${atk}點傷害`)
+                switch (attr) {
+                    case '火':
+                        $('#attack').css('background', 'url(./material/fire_attack.gif) no-repeat center/auto')
+                        setTimeout(() => {
+                            $('#attack').css('background', '')
+                        }, 1000);
+                        break;
+                    case '水':
+                        $('#attack').css('background', 'url(./material/water_attack.gif) no-repeat center/auto')
+                        setTimeout(() => {
+                            $('#attack').css('background', '')
+                        }, 1000);
+                        break;
+                    case '木':
+                        $('#attack').css('background', 'url(./material/leaf_attack.gif) no-repeat center/auto')
+                        setTimeout(() => {
+                            $('#attack').css('background', '')
+                        }, 1000);
+                        break;
+                }
+            }
+        }
+        // 防禦----------------------------------------------------
+        const defense = function () {
+            if (array.indexOf('shield') != -1 && array.indexOf('sword') == -1) {
+                if (bossid == '翡翠龍') {
+                    array.map((i) => {
+                        switch (i) {
+                            case 'leaf':
+                                def += 2
+                                attr = '木'
+                                break;
+                            case 'fire':
+                                def += 3
+                                attr = '火'
+                                break;
+                            case 'water':
+                                def++
+                                attr = '水'
+                                break;
+                        }
+                    })
+                }
+                if (bossid == '櫻火龍') {
+                    array.map((i) => {
+                        switch (i) {
+                            case 'leaf':
+                                def++
+                                attr = '木'
+                                break;
+                            case 'fire':
+                                def += 2
+                                attr = '火'
+                                break;
+                            case 'water':
+                                def += 3
+                                attr = '水'
+                                break;
+                        }
+                    })
+                }
+                if (bossid == '水蛟龍') {
+                    array.map((i) => {
+                        switch (i) {
+                            case 'leaf':
+                                def += 3
+                                attr = '木'
+                                break;
+                            case 'fire':
+                                def++
+                                attr = '火'
+                                break;
+                            case 'water':
+                                def += 2
+                                attr = '水'
+                                break;
+                        }
+                    })
+                }
+
+                def *= combopoint
+                def = Math.round(def)
+                finaldef += def
+                $('#defensevalue').text(finaldef)
+                $('#dleft').append(`<li class='dleft'>架起了${attr}之盾，對${bossid}具有${def}點防禦減免</li>`)
+            }
+        }
+        // 技能--------------------------------------------------
+        const skill = () => {
+            if (bossid == '翡翠龍') {
+                array.map((i) => {
+                    switch (i) {
+                        case 'leaf':
+                            atk += 2
+                            attr = '木'
+                            break;
+                        case 'fire':
+                            atk += 3
+                            attr = '火'
+                            break;
+                        case 'water':
+                            atk += 0.5
+                            attr = '水'
+                            break;
+                    }
+                })
+            }
+            if (bossid == '櫻火龍') {
+                array.map((i) => {
+                    switch (i) {
+                        case 'leaf':
+                            atk += 0.5
+                            attr = '木'
+                            break;
+                        case 'fire':
+                            atk += 2
+                            attr = '火'
+                            break;
+                        case 'water':
+                            atk += 3
+                            attr = '水'
+                            break;
+                    }
+                })
+            }
+            if (bossid == '水蛟龍') {
+                array.map((i) => {
+                    switch (i) {
+                        case 'leaf':
+                            atk += 3
+                            attr = '木'
+                            break;
+                        case 'fire':
+                            atk += 0.5
+                            attr = '火'
+                            break;
+                        case 'water':
+                            atk += 2
+                            attr = '水'
+                            break;
+                    }
+                })
+            }
+            atk *= combopoint
+            atk = Math.round(atk)
+            heal = Math.round(atk * 0.3)
+
+            hp += heal
+            bosshp -= atk
+            $('#hp').text(`${hp}`)
+            $('#dleft').append(`<li class='dleft'>詠唱出${attr}之魔法，對${bossid}造成${atk}點傷害，並從${bossid}身上吸取${heal}點HP</li>`)
+
+            switch (attr) {
+                case '火':
+                    $('#skill').css('background', `url('./material/fire_skill.gif') no-repeat left/cover`)
+                    setTimeout(() => {
+                        $('#skill').css('background', '')
+                    }, 1000);
+                    break;
+                case '水':
+                    $('#skill').css('background', `url('./material/water_skill.gif') no-repeat left/cover`)
+                    setTimeout(() => {
+                        $('#skill').css('background', '')
+                    }, 1000);
+                    break;
+                case '木':
+                    $('#skill').css('background', `url('./material/leaf_skill.gif') no-repeat left/cover`)
+                    setTimeout(() => {
+                        $('#skill').css('background', '')
+                    }, 1000);
+                    break;
+
+            }
+        }
+        // BOSS行為-----------------------------------------------------------
+        const bossattack = () => {
+            $('#boss').animate({
+                width: '+=200px',
+                height: '+=200px',
+                top: '35%',
+            }, 1000)
+            $('#boss').animate({
+                top: '150%'
+            }, 500)
+            $('#boss').animate({
+                width: '-=200px',
+                height: '-=200px',
+                top: '50%',
+            }, 1000)
+            $('#tright').append(`<li class='tright'>${bossid}向你衝了過來</li>`)
+            bossatk = rand(50) + 50
+            setTimeout(() => {
+                if ((bossatk - finaldef) < 0) {
+                    finaldef -= bossatk
+                    bossatk = 0
+                    $('#defensevalue').text(finaldef)
+                    $('#dleft').append(`<li class='dleft'>你成功擋下${bossid}的攻擊</li>`)
+                }
+                else {
+                    hp -= (bossatk - finaldef)
+                    bossatk -= dfinaldefef
+                    finaldef = 0
+                    $('#defensevalue').text(finaldef)
+                    $('#dleft').append(`<li class='dleft'>被${bossid}抓傷，你受到${(bossatk)}點傷害</li>`)
+                    $('#hp').text(`${hp}`)
+
+                }
+                $('#grab').css('background', 'url(./material/grab.gif) no-repeat center/cover')
+                setTimeout(() => {
+                    $('#grab').css('background', '')
+                }, 2000);
+            }, 1500);
+        }
+
+
+        const bossskill = () => {
+
+            $('#boss').animate({
+                width: '+=200px',
+                height: '+=200px',
+                top: '35%',
+            }, 1000)
+            $('#boss').animate({
+
+                top: '45%',
+            }, 1000)
+            $('#boss').animate({
+                width: '-=200px',
+                height: '-=200px',
+                top: '50%',
+            }, 500)
+
+            if (bossid == '櫻火龍') {
+                $('#bossskill').css('background', 'url(./material/boss_fire_skill.gif) no-repeat center/contain')
+                $('#bossskill').animate({
+                    width: '500px',
+                    height: '500px',
+                }, 10)
+                $('#bossskill').animate({
+                    width: '500px',
+                    height: '500px',
+                }, 1000)
+                $('#bossskill').animate({
+                    width: '500px',
+                    top: '50%',
+                }, 1000)
+                setTimeout(() => {
+                    animatenone()
+                }, 3000);
+
+            }
+            if (bossid == '水蛟龍') {
+                $('#bossskill').css('background', 'url(./material/boss_water_skill.gif) no-repeat center/contain')
+
+                $('#bossskill').animate({
+                    top: '20%',
+                    width: '500px',
+                    height: '500px',
+                }, 10)
+                $('#bossskill').animate({
+                    top: '35%',
+                    width: '500px',
+                    height: '500px',
+                }, 1000)
+                $('#bossskill').animate({
+                    width: '500px',
+                    top: '45%',
+                }, 1000)
+                setTimeout(() => {
+                    animatenone()
+                }, 3000);
+            }
+            if (bossid == '翡翠龍') {
+
+                $('#bossskill').css('background', 'url(./material/boss_leaf_skill.gif) no-repeat center/contain')
+                $('#bossskill').animate({
+                    width: '500px',
+                    height: '500px',
+                    top: '10%',
+                }, 10)
+                $('#bossskill').animate({
+                    width: '500px',
+                    height: '500px',
+                    top: '10%',
+                }, 1000)
+                $('#bossskill').animate({
+                    height: '1000px',
+                    width: '1000px',
+                    left: '24%',
+                    top: '28%',
+                }, 1000)
+                setTimeout(() => {
+                    animatenone()
+                }, 3000);
+
+            }
+
+            $('#tright').append(`<li class='tright'>${bossid}向你發動龍之吐息</li>`)
+
+            bossatk = rand(100) + 100
+            setTimeout(() => {
+                if ((bossatk - finaldef) < 0) {
+                    finaldef -= bossatk
+                    bossatk = 0
+                    $('#defensevalue').text(finaldef)
+                    $('#dleft').append(`<li class="dleft">你成功擋下${bossid}的吐息</li>`)
+                }
+                else {
+                    bossatk -= finaldef
+                    hp -= (bossatk)
+                    finaldef = 0
+                    $('#defensevalue').text(finaldef)
+                    $('#dleft').append(`<li class='dleft'>${bossid}向你發動龍之吐息，你受到${(bossatk)} 點傷害</li>`)
+                    $('#hp').text(`${hp}`)
+                    $('.card').addClass('open')
+                }
+                setTimeout(() => {
+                    $('.card').removeClass('open')
+                }, 1000);
+            }, 1500);
+        }
+
+        const bosschange = () => {
+            let random3 = rand(3)
+
+            if (bossid == '櫻火龍') {
+                random3 = rand(2) + 1
+            }
+            if (bossid == '水蛟龍') {
+                while (random3 == 1) {
+                    random3 = rand(3)
+                }
+            }
+            if (bossid == '翡翠龍') {
+                random3 = rand(2)
+            }
+            console.log(random3);
+            if (random3 == 0) {
+                bossid = '櫻火龍'
+                $('#src').css('backgroundImage', 'url("./material/fire_sence.jpg")')
+                boss.style.backgroundImage = 'url("./material/fire_dragon.png")'
+            }
+            if (random3 == 1) {
+                bossid = '水蛟龍'
+                $('#src').css('backgroundImage', 'url("./material/water_sence.jpg")')
+                boss.style.backgroundImage = 'url("./material/water_dragon.png")'
+            }
+            if (random3 == 2) {
+                bossid = '翡翠龍'
+                $('#src').css('backgroundImage', 'url("./material/leaf_sence.jpg")')
+                boss.style.backgroundImage = 'url("./material/leaf_dragon.png")'
+            }
+            $('#tright').append(`<li class='tright'>變成${bossid}了!</li>`)
+        }
+
+        const bossaction = () => {
+            let random = rand(3)
+            if (bossskillcount == 1) {
+                random = 1
+            }
+            if (bossskillcount == -1) {
+                random = 2
+            }
+            setTimeout(() => {
+                if (random == 0) {
+                    bossattack()
+                }
+                if (random == 1) {
+                    bossskillcount++
+
+
+                    if (bossskillcount == 2) {
+                        bossskill()
+                        bossskillcount = 0
+                    }
+                    else {
+                        $('#tright').append(`<li class='tright'>${bossid}好像正在醞釀...</li>`)
+                    }
+                }
+                if (random == 2) {
+                    bossskillcount--
+
+
+                    if (bossskillcount == -2) {
+                        bosschange()
+                        bossskillcount = 0
+                    }
+
+                    else {
+                        $('#src').css('backgroundImage', 'url("./material/changing.jpg")')
+                        $('#boss').animate({
+                            top: '40%'
+                        }, 500)
+                        $('#boss').animate({
+                            top: '50%',
+                            left: '60%'
+                        }, 500)
+                        $('#boss').animate({
+                            top: '60%',
+                            left: '50%'
+                        }, 500)
+                        $('#boss').animate({
+                            top: '50%',
+                            left: '40%'
+                        }, 500)
+                        $('#boss').animate({
+                            top: '50%',
+                            left: '50%'
+                        }, 500)
+                        $('#tright').append(`<li class='tright'>${bossid}好像正在改變型態...</li>`)
+                    }
+                }
+            }, 50);
+        }
+        // 動畫歸零--------------------------------------------------------
+        const animatenone = () => {
+            $('#bossskill').css({
+                width: 0,
+                height: 0,
+                top: '0%',
+                left: '37%',
+                display: 'block'
+            })
+        }
+
+        const over = () => {
+            if (bosshp < 0) {
+                setTimeout(() => {
+
+                    alert('恭喜你擊敗了BOSS')
+                }, 1000);
+            }
+            if (hp < 0) {
+                setTimeout(() => {
+
+                    alert('你已被BOSS擊敗，請再接再厲')
+                }, 1000);
+            }
+            clearInterval(timer)
+
+            $('#rest').css('pointer-events', 'none')
+
+            $('.card').css('pointer-events', 'none')
+
+            $('#start').attr('disabled', false)
+
+        }
+    </script>
+</body>
+
+</html>
